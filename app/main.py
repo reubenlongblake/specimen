@@ -49,7 +49,7 @@ FONTS_DIR = _resolve_fonts_dir(SETTINGS.get("fonts_subdir", ""))
 TRASH_DIR = FONTS_DIR / TRASH_NAME
 UPLOAD_SUBDIR = os.environ.get("UPLOAD_SUBDIR", "").strip("/")
 RESCAN_SECONDS = int(os.environ.get("RESCAN_SECONDS", "60"))
-INDEX_VERSION = 5
+INDEX_VERSION = 6
 
 WEB_EXTS = {".otf", ".ttf", ".ttc", ".otc", ".woff", ".woff2"}
 OTHER_EXTS = {".pfb", ".pfa", ".dfont"}
@@ -85,6 +85,8 @@ if INDEX.data.get("_v") != INDEX_VERSION:
 TAGS = JsonStore(DATA_DIR / "tags.json", {})          # group id -> {licence, note, projects, name}
 ACTIVITY = JsonStore(DATA_DIR / "activity.json", {"downloads": {}})
 TRASH = JsonStore(DATA_DIR / "trash.json", {"batches": []})
+# Manual merges: {"into": {source_key: target_key}, "names": {target_key: display name}}
+MERGES = JsonStore(DATA_DIR / "merges.json", {"into": {}, "names": {}})
 
 
 # --------------------------------------------------------------------------- atime-safe reads
@@ -208,10 +210,15 @@ def _extract(f, rel, index, fmt):
     name = f["name"] if "name" in f else None
 
     def nm(i):
+        # Prefer the Windows English record (what design apps use), then any Windows record,
+        # then whatever else exists. Old fonts often carry stale Mac-platform names.
         if not name or i is None:
             return ""
         try:
-            return (name.getDebugName(i) or "").strip()
+            rec = (name.getName(i, 3, 1, 0x409) or name.getName(i, 3, 0, 0x409)
+                   or next((r for r in name.names if r.nameID == i and r.platformID == 3), None))
+            v = rec.toUnicode() if rec else name.getDebugName(i)
+            return (v or "").strip()
         except Exception:
             return ""
 
@@ -340,17 +347,32 @@ def derive_names(face: dict, rel: str) -> tuple[str, str]:
         stem = Path(rel).stem
         a, _, b = stem.partition("-")
         fam, style = split_camel(a), split_camel(b)
-    toks = fam.split()
     if not typo:
-        stripped = []
-        while len(toks) > 1 and toks[-1].lower().replace("-", "") in STYLE_WORDS:
-            stripped.insert(0, toks.pop())
+        fam, stripped = strip_style_suffix(fam)
         if stripped:
             st = " ".join(stripped)
             if style and style.lower() not in ("regular", "normal", "roman") and style.lower() not in st.lower():
                 st = f"{st} {style}"
             style = st
-    return " ".join(toks) or Path(rel).stem, style or "Regular"
+    return " ".join(fam.split()) or Path(rel).stem, style or "Regular"
+
+
+def strip_style_suffix(fam: str) -> tuple[str, list[str]]:
+    """Peel weight/style words off the end of a family name, whether they're joined by spaces,
+    hyphens, underscores or camelCase: "Colaborate-Bold", "ColaborateLight", "Neusa ExtraBold"."""
+    removed = []
+    while True:
+        m = re.search(r"[\s\-_]+([A-Za-z]+)$", fam)
+        if m and m.start() > 0 and m.group(1).lower() in STYLE_WORDS:
+            removed.insert(0, m.group(1))
+            fam = fam[:m.start()]
+            continue
+        m = re.search(r"(?<=[a-z0-9])([A-Z][a-z]+(?:[A-Z][a-z]+)?)$", fam)
+        if m and len(m.group(1)) > 3 and m.group(1).lower() in STYLE_WORDS:
+            removed.insert(0, m.group(1))
+            fam = fam[:m.start()]
+            continue
+        return fam.strip(" -_"), removed
 
 
 def super_tokens(family: str) -> list[str]:
@@ -369,6 +391,23 @@ def super_tokens(family: str) -> list[str]:
         keep.append(toks[i])
         i += 1
     return keep
+
+
+NAME_WEIGHTS = [("hairline", 50), ("thin", 100), ("extralight", 200), ("ultralight", 200), ("light", 300),
+                ("book", 400), ("regular", 400), ("medium", 500), ("semibold", 600), ("demibold", 600),
+                ("demi", 600), ("extrabold", 800), ("ultrabold", 800), ("bold", 700), ("heavy", 800),
+                ("extrablack", 950), ("ultrablack", 950), ("black", 900), ("fat", 900)]
+
+
+def sort_weight(f):
+    """usWeightClass, unless it's the generic 400 and the style name clearly says otherwise."""
+    w = f.get("weight", 400)
+    if w == 400:
+        st = re.sub(r"[\s\-_]", "", (f.get("style") or "").lower())
+        for word, nw in sorted(NAME_WEIGHTS, key=lambda x: -len(x[0])):
+            if word in st:
+                return nw
+    return w
 
 
 def build_library(files: dict) -> dict:
@@ -394,18 +433,37 @@ def build_library(files: dict) -> dict:
         s = supers.setdefault(key, {"tokens": toks, "families": {}})
         s["families"].setdefault(norm(f["family"]), {"name": f["family"], "faces": []})["faces"].append(f)
 
+    # apply manual merges (following chains, ignoring loops)
+    into = MERGES.data.get("into", {})
+    merged_keys = set()
+
+    def resolve(k):
+        seen = set()
+        while k in into and k not in seen:
+            seen.add(k)
+            k = into[k]
+        return k
+    for k in list(supers):
+        t = resolve(k)
+        if t != k and t in supers and k in supers:
+            for fk, fam in supers.pop(k)["families"].items():
+                supers[t]["families"].setdefault(fk, {"name": fam["name"], "faces": []})["faces"] += fam["faces"]
+            merged_keys.add(t)
+
     groups, used_ids = {}, set()
     for key, s in supers.items():
         fams = list(s["families"].values())
         base = s["families"].get(key)
-        if len(fams) == 1:
+        if MERGES.data.get("names", {}).get(key):
+            name = MERGES.data["names"][key]
+        elif len(fams) == 1:
             name = fams[0]["name"]
         elif base:
             name = base["name"]
         else:
             name = " ".join(s["tokens"])
         for fam in fams:
-            fam["faces"].sort(key=lambda f: (f["weight"], f["italic"], f["style"]))
+            fam["faces"].sort(key=lambda f: (sort_weight(f), f["italic"], f["style"]))
             fam["width"] = sum(f["width"] for f in fam["faces"]) / len(fam["faces"])
         fams.sort(key=lambda fm: (fm is not base, abs(fm["width"] - 5), fm["width"], fm["name"].lower()))
         all_faces = [f for fm in fams for f in fm["faces"]]
@@ -422,7 +480,7 @@ def build_library(files: dict) -> dict:
             f["group"] = gid
         cats = [f.get("category") for f in all_faces if f.get("category")]
         groups[gid] = {
-            "id": gid, "name": name, "key": key,
+            "id": gid, "name": name, "key": key, "merged": key in merged_keys,
             "families": [{"name": fm["name"], "faces": [f["id"] for f in fm["faces"]]} for fm in fams],
             "styles": len(all_faces), "default": default["id"],
             "latin": default.get("latin", True), "sample": default.get("sample", ""),
@@ -439,6 +497,46 @@ def build_library(files: dict) -> dict:
 
 
 # --------------------------------------------------------------------------- scanner
+
+def migrate_tags(state):
+    """Keep tags attached to their fonts when grouping changes a family's id.
+    Each tag entry remembers which files it covers; an entry whose id no longer exists moves to the
+    family that now holds those files (or, for entries saved before files were tracked, the family
+    whose name matches once style words are stripped)."""
+    groups, faces = state["groups"], state["faces"]
+    if not groups:
+        return
+    group_files = {gid: sorted({faces[fid]["path"] for fam in g["families"] for fid in fam["faces"]})
+                   for gid, g in groups.items()}
+    by_path = {p: gid for gid, ps in group_files.items() for p in ps}
+    by_name = {norm(g["name"]): gid for gid, g in groups.items()}
+    changed = False
+    for old in [k for k in TAGS.data if k not in groups]:
+        t = TAGS.data[old]
+        targets = {by_path[p] for p in t.get("files", []) if p in by_path}
+        if not targets and t.get("name"):
+            for candidate in (t["name"], strip_style_suffix(t["name"])[0]):
+                if norm(candidate) in by_name:
+                    targets = {by_name[norm(candidate)]}
+                    break
+        if not targets:
+            continue  # its fonts aren't here right now (e.g. a different folder); keep it for later
+        for gid in targets:
+            d = TAGS.data.setdefault(gid, {})
+            d["projects"] = _clean_projects(d.get("projects", []) + t.get("projects", []))
+            if not d.get("licence") and t.get("licence"):
+                d["licence"] = t["licence"]
+            if t.get("note") and t["note"] not in (d.get("note") or ""):
+                d["note"] = "\n".join(filter(None, [d.get("note", ""), t["note"]]))
+        del TAGS.data[old]
+        changed = True
+    for gid, t in TAGS.data.items():
+        if gid in groups and (t.get("files") != group_files[gid] or t.get("name") != groups[gid]["name"]):
+            t["files"], t["name"] = group_files[gid], groups[gid]["name"]
+            changed = True
+    if changed:
+        TAGS.save()
+
 
 class Scanner:
     def __init__(self):
@@ -522,6 +620,7 @@ class Scanner:
                     e["atime"] = a
             if changed or not self.state["faces"]:
                 self.state = build_library(files)
+                migrate_tags(self.state)
             INDEX.save()
             self.last_scan = time.time()
             self.prune_cache()
@@ -638,6 +737,7 @@ def tags_for(gid):
 def _startup():
     if INDEX.data["files"]:
         SCANNER.state = build_library(INDEX.data["files"])
+        migrate_tags(SCANNER.state)
     SCANNER.scan_async()
 
 
@@ -871,6 +971,77 @@ async def bulk_tags(request: Request):
         _set_tags(gid, add=body.get("add"), remove=body.get("remove"), **kw)
     TAGS.save()
     return {"ok": True}
+
+
+# ---- manual family merges
+
+def _rebuild():
+    SCANNER.state = build_library(INDEX.data["files"])
+    migrate_tags(SCANNER.state)
+
+
+@app.post("/api/merge")
+async def merge_groups(request: Request):
+    """Combine several families into one tile. Display only: no files are renamed or moved."""
+    body = await request.json()
+    groups = SCANNER.state["groups"]
+    ids = [g for g in dict.fromkeys(body.get("groups", [])) if g in groups]
+    keep = body.get("keep") if body.get("keep") in ids else (ids[0] if ids else None)
+    if len(ids) < 2:
+        raise HTTPException(400, "Select at least two families to merge")
+    target = groups[keep]
+    into, names = MERGES.data.setdefault("into", {}), MERGES.data.setdefault("names", {})
+    for gid in ids:
+        if gid == keep:
+            continue
+        src = groups[gid]["key"]
+        into[src] = target["key"]
+        for k, v in list(into.items()):  # anything merged into the source now goes to the target
+            if v == src:
+                into[k] = target["key"]
+        names.pop(src, None)
+    names[target["key"]] = target["name"]
+    # combine tags onto the kept family
+    t = TAGS.data.setdefault(keep, {})
+    t["name"] = target["name"]
+    for gid in ids:
+        if gid == keep:
+            continue
+        o = TAGS.data.pop(gid, None) or {}
+        t["projects"] = _clean_projects(t.get("projects", []) + o.get("projects", []))
+        if not t.get("licence") and o.get("licence"):
+            t["licence"] = o["licence"]
+        if o.get("note") and o["note"] not in (t.get("note") or ""):
+            t["note"] = "\n".join(filter(None, [t.get("note", ""), o["note"]]))
+    MERGES.save()
+    TAGS.save()
+    _rebuild()
+    new_id = next((g["id"] for g in SCANNER.state["groups"].values() if g["key"] == target["key"]), keep)
+    return {"ok": True, "id": new_id}
+
+
+@app.post("/api/group/{gid}/split")
+def split_group(gid: str):
+    """Undo manual merges into this family. Each restored family starts with a copy of its tags."""
+    g = SCANNER.state["groups"].get(gid)
+    if not g:
+        raise HTTPException(404, "Family not found")
+    into = MERGES.data.setdefault("into", {})
+    sources = [k for k, v in into.items() if v == g["key"]]
+    if not sources:
+        raise HTTPException(400, "This family wasn't merged by hand")
+    for k in sources:
+        into.pop(k)
+    MERGES.data.setdefault("names", {}).pop(g["key"], None)
+    MERGES.save()
+    tags = dict(TAGS.data.get(gid) or {})
+    _rebuild()
+    restored = [x for x in SCANNER.state["groups"].values() if x["key"] in sources or x["key"] == g["key"]]
+    for x in restored:
+        if x["id"] not in TAGS.data and tags:
+            TAGS.data[x["id"]] = dict(tags, name=x["name"])
+    TAGS.save()
+    return {"ok": True, "groups": [x["id"] for x in restored]}
 
 
 @app.get("/api/tags/export")

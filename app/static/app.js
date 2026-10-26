@@ -31,6 +31,8 @@ const P = {
   sun: '<circle cx="12" cy="12" r="4"/><path d="M12 2.5v2M12 19.5v2M21.5 12h-2M4.5 12h-2M18.7 5.3l-1.4 1.4M6.7 17.3l-1.4 1.4M18.7 18.7l-1.4-1.4M6.7 6.7 5.3 5.3"/>',
   moon: '<path d="M19.5 14.5A8 8 0 0 1 9.5 4.5a8 8 0 1 0 10 10Z"/>',
   auto: '<circle cx="12" cy="12" r="8.5"/><path d="M12 3.5v17a8.5 8.5 0 0 0 0-17Z" fill="currentColor" stroke="none"/>',
+  merge: '<path d="M6 4v4.5c0 2 1.2 3.4 3 4.2l3 1.3 3-1.3c1.8-.8 3-2.2 3-4.2V4M12 14v6M9 17.5l3 3 3-3"/>',
+  split: '<path d="M12 20v-6M6 4v4.5c0 2 1.2 3.4 3 4.2l3 1.3 3-1.3c1.8-.8 3-2.2 3-4.2V4M3.5 6.5 6 4l2.5 2.5M15.5 6.5 18 4l2.5 2.5"/>',
   open: '<path d="M13.5 4.5h6v6M19.5 4.5 11 13M18 14v4.5c0 .8-.7 1.5-1.5 1.5h-11c-.8 0-1.5-.7-1.5-1.5v-11C4 6.7 4.7 6 5.5 6H10"/>',
 };
 const icon = (n, cls = "") => `<svg class="i ${cls}" viewBox="0 0 24 24" aria-hidden="true">${P[n] || ""}</svg>`;
@@ -98,17 +100,24 @@ const SORTS = {
 
 // ------------------------------------------------------------------ font loading
 const fontPromises = new Map();
+const fontLoaded = new Map();  // key -> CSS family name, for fonts already in the page
 function loadFont(kind, faceId, version) {
   const key = `${kind}-${faceId}`;
   if (fontPromises.has(key)) return fontPromises.get(key);
   const url = `/api/face/${faceId}/${kind === "p" ? "preview" : "font"}?v=${version || 0}`;
   const fam = `sp-${key}`;
-  const p = new FontFace(fam, `url(${url})`).load().then((ff) => { document.fonts.add(ff); return fam; })
+  const p = new FontFace(fam, `url(${url})`).load().then((ff) => { document.fonts.add(ff); fontLoaded.set(key, fam); return fam; })
     .catch(() => { fontPromises.delete(key); return null; });
   fontPromises.set(key, p);
   return p;
 }
 const faceStack = (fam) => `"${fam}", "Adobe Blank", sans-serif`;
+// Attributes for a preview element: if its font is already loaded, paint it straight away (no fade).
+function previewAttrs(faceId, v) {
+  const fam = fontLoaded.get(`p-${faceId}`);
+  return fam ? { cls: "ready instant", attr: `data-face="${faceId}" data-v="${v}" data-loaded="1" style='font-family:${faceStack(fam).replace(/'/g, "")}'` }
+             : { cls: "", attr: `data-face="${faceId}" data-v="${v}"` };
+}
 
 const DECADE_HTML = `<span>DECADE</span><span>studios</span>`;
 // Shrink the two-line sample until both words fit inside the card, so wide fonts don't clip.
@@ -133,8 +142,12 @@ const io = new IntersectionObserver((entries) => {
 }, { rootMargin: "300px" });
 
 // ------------------------------------------------------------------ data
+let librarySig = "";
 async function loadLibrary() {
   const data = await api("/api/library");
+  const sig = JSON.stringify([data.groups, data.trash, data.fonts_dir, data.errors]);
+  S.changed = sig !== librarySig;
+  librarySig = sig;
   S.groups = data.groups;
   S.byId = new Map(data.groups.map((g) => [g.id, g]));
   S.scanning = data.scanning; S.progress = data.progress; S.errors = data.errors;
@@ -145,9 +158,8 @@ async function loadLibrary() {
 let pollTimer;
 async function refresh(full = true) {
   try { await loadLibrary(); } catch (e) { toast(`Couldn't reach Specimen: ${e.message}`); }
-  renderSidebar();
-  if (S.route.name === "home" && full) renderHome(true);
-  else if (S.route.name === "home") renderFootOnly();
+  if (S.changed) renderSidebar(); else renderFootOnly();
+  if (S.route.name === "home" && full && S.changed) renderHome(true);
   clearTimeout(pollTimer);
   pollTimer = setTimeout(() => refresh(true), S.scanning ? 1500 : 60000);
 }
@@ -388,8 +400,9 @@ function tileHTML(g) {
   const txt = previewText(g, "grid");
   const def = g.faces.find((f) => f.id === g.default);
   const decade = prefs.tileMode === "decade" && g.latin;
+  const pa = previewAttrs(g.default, def?.mtime || 0);
   const glyph = g.previewable
-    ? `<div class="glyph ${prefs.tileMode === "name" && g.latin ? "name" : ""} ${decade ? "decade" : ""}" data-face="${g.default}" data-v="${def?.mtime || 0}">${decade ? DECADE_HTML : esc(txt)}</div>`
+    ? `<div class="glyph ${prefs.tileMode === "name" && g.latin ? "name" : ""} ${decade ? "decade" : ""} ${pa.cls}" ${pa.attr}>${decade ? DECADE_HTML : esc(txt)}</div>`
     : `<div class="glyph na">${esc(g.formats.join(", ").toUpperCase())}<br>No preview</div>`;
   return `<div class="tile ${S.sel.has(g.id) ? "sel" : ""}" data-id="${g.id}" draggable="true">
     <div class="card">${glyph}<div class="badges">${licPill(g)}</div>${g.variable ? `<div class="badges left"><span class="pill var">Variable</span></div>` : ""}</div>
@@ -398,8 +411,9 @@ function tileHTML(g) {
 function rowHTML(g) {
   const def = g.faces.find((f) => f.id === g.default);
   const when = { added: g.added, downloaded: g.downloaded, used: g.used }[prefs.sort] ?? g.used;
+  const pa = previewAttrs(g.default, def?.mtime || 0);
   const sample = g.previewable
-    ? `<div class="sample" data-face="${g.default}" data-v="${def?.mtime || 0}">${esc(previewText(g, "list"))}</div>`
+    ? `<div class="sample ${pa.cls}" ${pa.attr}>${esc(previewText(g, "list"))}</div>`
     : `<div class="sample na">No preview for ${esc(g.formats.join(", ").toUpperCase())}</div>`;
   return `<div class="row ${S.sel.has(g.id) ? "sel" : ""}" data-id="${g.id}" draggable="true">
     <div class="nmcol"><b>${esc(g.name)}</b><span class="sub">${esc(plural(g.styles, "style"))}${g.families.length > 1 ? ` · ${g.families.length} families` : ""}</span></div>
@@ -455,10 +469,17 @@ function renderHome(keepScroll = false) {
   } else {
     c.innerHTML = `<div class="grid">${list.map(tileHTML).join("")}</div>`;
   }
-  $$("[data-face]", c).forEach((el) => io.observe(el));
+  observePreviews(c);
   if (keepScroll) c.scrollTop = top;
   renderInspector();
   updateToolbarSel();
+}
+
+function observePreviews(root) {
+  $$("[data-face]", root).forEach((el) => {
+    if (!el.dataset.loaded) io.observe(el);
+    else if (el.classList.contains("decade")) fitDecade(el);
+  });
 }
 
 function updateSelection() {
@@ -514,6 +535,8 @@ function groupMenu(pos, ids) {
     one && { label: "Open", kbd: "↵", act: () => openFamily(one.id) },
     { label: one ? "Download Family" : `Download ${ids.length} Families`, act: () => downloadGroups(ids) },
     "-",
+    !one && { label: `Merge ${ids.length} Families…`, act: () => confirmMerge(ids) },
+    one?.merged && { label: "Split Merged Family…", act: () => confirmSplit(one) },
     { label: "Add Project ID…", act: () => promptProject(ids) },
     { head: "Licence" },
     { label: "Open Licence", check: lic === "open", act: () => bulkTag({ groups: ids, licence: "open" }) },
@@ -589,11 +612,13 @@ function renderInspector() {
       <div class="ins-sub">${plural(gs.reduce((n, g) => n + g.styles, 0), "style")} · ${fmtSize(gs.reduce((n, g) => n + g.size, 0))}</div></div>
       <div class="multi-stack">${gs.slice(0, 24).map((g) => `<span>${esc(g.name)}</span>`).join("")}${gs.length > 24 ? `<span>+${gs.length - 24} more</span>` : ""}</div>
       <div class="ins-actions"><button class="btn primary" data-act="dl">${icon("download")}Download All</button><button class="btn danger-text" data-act="del">${icon("trash")}Delete</button></div>
+      <button class="btn" data-act="merge" style="width:100%">${icon("merge")}Merge into One Family</button>
       <div class="ins-block"><label>Licence${lic === "mixed" ? " (mixed)" : ""}</label>${licControl(lic)}</div>
       <div class="ins-block"><label>Projects in common</label><div id="chipHost"></div>
       <div style="font-size:11px;color:var(--text-3)">IDs you add here are applied to every selected family.</div></div>`;
     ins.querySelector('[data-act="dl"]').onclick = () => downloadGroups(ids);
     ins.querySelector('[data-act="del"]').onclick = () => confirmDeleteGroups(ids);
+    ins.querySelector('[data-act="merge"]').onclick = () => confirmMerge(ids);
     bindLic(ins, (v) => bulkTag({ groups: ids, licence: v }));
     chipEditor($("#chipHost", ins), common, {
       onAdd: (p) => bulkTag({ groups: ids, add: [p] }, false),
@@ -612,6 +637,7 @@ function renderInspector() {
       <button class="btn" data-act="open">Open</button>
       <button class="btn danger-text" data-act="del" title="Delete family">${icon("trash")}</button>
     </div>
+    ${g.merged ? `<button class="btn" data-act="split" title="Undo the manual merge">${icon("split")}Split Merged Family</button>` : ""}
     ${g.families.length > 1 ? `<div class="ins-block"><label>Families</label><div class="ins-fams">${g.families.map((f) => `<div><b>${esc(f.name)}</b><span>${plural(f.faces.length, "style")}</span></div>`).join("")}</div></div>` : ""}
     <div class="ins-block"><label>Licence</label>${licControl(g.tags.licence)}
       <textarea class="note" id="insNote" placeholder="Licence notes (e.g. SIL OFL, demo only, bought for Decade Studios)">${esc(g.tags.note)}</textarea></div>
@@ -624,10 +650,15 @@ function renderInspector() {
       <dt>Last used</dt><dd title="Last time a file in this family was opened, including over SMB">${esc(ago(g.used))}</dd>
       <dt>Downloaded</dt><dd>${esc(ago(g.downloaded))}</dd>
     </dl>`;
-  if (g.previewable) io.observe($(".ins-preview", ins));
+  if (g.previewable) {
+    const el = $(".ins-preview", ins), fam = fontLoaded.get(`p-${g.default}`);
+    if (fam) { el.style.fontFamily = faceStack(fam); el.classList.add("ready"); if (el.classList.contains("decade")) fitDecade(el); }
+    else io.observe(el);
+  }
   ins.querySelector('[data-act="dl"]').onclick = () => downloadGroups([g.id]);
   ins.querySelector('[data-act="open"]').onclick = () => openFamily(g.id);
   ins.querySelector('[data-act="del"]').onclick = () => confirmDeleteGroups([g.id]);
+  ins.querySelector('[data-act="split"]')?.addEventListener("click", () => confirmSplit(g));
   bindTagEditor(ins, g);
 }
 
@@ -734,10 +765,8 @@ function refreshTiles(ids, rerenderInspector = true) {
     const tmp = document.createElement("div");
     tmp.innerHTML = prefs.view === "list" ? rowHTML(g) : tileHTML(g);
     const fresh = tmp.firstElementChild;
-    const oldF = $("[data-face]", el), newF = $("[data-face]", fresh);
-    if (oldF && newF && oldF.classList.contains("ready")) { newF.style.fontFamily = oldF.style.fontFamily; newF.classList.add("ready"); if (newF.classList.contains("decade")) requestAnimationFrame(() => fitDecade(newF)); }
-    else if (newF) io.observe(newF);
     el.replaceWith(fresh);
+    observePreviews(fresh);
   }
   if (rerenderInspector) renderInspector();
 }
@@ -770,6 +799,41 @@ function confirmDeleteGroups(ids) {
       const r = await api("/api/delete", { method: "POST", json: { groups: ids } });
       afterDelete(r, gs.length === 1 ? gs[0].name : `${gs.length} families`);
     });
+}
+function confirmMerge(ids) {
+  const gs = ids.map((id) => S.byId.get(id)).filter(Boolean);
+  if (gs.length < 2) return;
+  const best = [...gs].sort((a, b) => b.styles - a.styles || a.name.length - b.name.length)[0];
+  const names = gs.length === 2 ? `“${gs[0].name}” and “${gs[1].name}”` : `these ${gs.length} families`;
+  const lics = new Set(gs.map((g) => g.tags.licence).filter(Boolean));
+  openSheet(`<h3>Are you sure you want to merge ${esc(names)}?</h3>
+    <p>They'll show as one family, with each original kept as its own section on the family page. Files aren't renamed or moved, and you can split them again any time.</p>
+    <div class="field-label">Keep the name</div>
+    <div class="merge-list">${gs.map((g) => `<label class="merge-opt"><input type="radio" name="keep" value="${esc(g.id)}" ${g === best ? "checked" : ""}>
+      <span class="grow"><b>${esc(g.name)}</b><span>${esc(plural(g.styles, "style"))}</span></span>${licPill(g)}</label>`).join("")}</div>
+    ${lics.size > 1 ? `<p style="color:var(--warn-text)">These have different licence tags. The merged family keeps the licence of the name you choose; project IDs from all of them are combined.</p>` : `<p>Project IDs and licence notes from all of them are combined.</p>`}
+    <div class="acts"><button class="btn" id="mNo">Cancel</button><button class="btn primary" id="mYes">${icon("merge")}Merge</button></div>`, "wide");
+  $("#mNo").onclick = closeSheet;
+  $("#mYes").onclick = async () => {
+    const keep = $('input[name="keep"]:checked').value;
+    $("#mYes").disabled = true;
+    try {
+      const r = await api("/api/merge", { method: "POST", json: { groups: ids, keep } });
+      closeSheet();
+      S.sel = new Set([r.id]); S.anchor = r.id;
+      await refreshAfterChange();
+      toast(`Merged into ${S.byId.get(r.id)?.name || "one family"}`);
+    } catch (e) { closeSheet(); toast(e.message); }
+  };
+}
+function confirmSplit(g) {
+  confirmSheet(`Split “${g.name}” back into separate families?`, "This undoes the merge. Each family gets its own tile again, starting with a copy of this family's tags.", "Split", async () => {
+    const r = await api(`/api/group/${encodeURIComponent(g.id)}/split`, { method: "POST" });
+    S.sel = new Set(r.groups);
+    if (S.route.name === "family") { S.homeScroll = 0; location.hash = "#/"; }
+    await refreshAfterChange();
+    toast(`Split into ${plural(r.groups.length, "family", "families")}`);
+  });
 }
 function confirmDeleteFaces(faces, label) {
   const files = new Set(faces.map((f) => f.path));
@@ -842,10 +906,11 @@ async function renderFamily(reload = false) {
   $("#famDl").onclick = () => { downloadGroups([g.id]); };
   $("#famMore").onclick = (e) => showMenu(e.currentTarget, [
     { label: "Add Project ID…", act: () => promptProject([g.id], () => renderFamily(true)) },
+    g.merged && { label: "Split Merged Family…", act: () => confirmSplit(g) },
     { label: "Copy Folder Path", act: () => copyText(`${S.fontsDir}/${g.faces[g.default].path.split("/").slice(0, -1).join("/")}`.replace(/\/$/, "")) },
     "-",
     { label: "Delete Family…", danger: true, act: () => confirmDeleteGroups([g.id]) },
-  ]);
+  ].filter(Boolean));
   if (tab === "glyphs") return renderGlyphs(g);
   if (tab === "info") return renderInfo(g);
   renderPreview(g);
