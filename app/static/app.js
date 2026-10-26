@@ -1184,7 +1184,7 @@ async function openSettings() {
     <div class="setting"><span class="field-label">Library</span>
       <div class="row2"><button class="btn" id="setRescan">${icon("refresh")}Rescan Now</button><span style="font-size:12px;color:var(--text-2)">Also rescans automatically every ${st.rescan_seconds}s while open.</span></div></div>
     </div>
-    <div class="acts"><button class="btn primary" id="closeSet">Done</button></div>`, "wide");
+    <div class="acts" style="align-items:center"><span style="flex:1;font-size:11px;color:var(--text-3)">Specimen version ${esc(st.version)}</span><button class="btn primary" id="closeSet">Done</button></div>`, "wide");
   $("#closeSet").onclick = closeSheet;
   $$("[data-theme-opt]").forEach((b) => b.onclick = () => { setTheme(b.dataset.themeOpt); $$("[data-theme-opt]").forEach((x) => x.classList.toggle("on", x === b)); });
   $("#expTags").onclick = () => triggerDownload("/api/tags/export");

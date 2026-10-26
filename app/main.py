@@ -767,7 +767,8 @@ def status():
 def get_settings():
     return {"root": str(LIBRARY_ROOT), "subdir": SETTINGS.get("fonts_subdir", ""),
             "fonts_dir": str(FONTS_DIR), "exists": FONTS_DIR.is_dir(),
-            "writable": os.access(FONTS_DIR, os.W_OK), "rescan_seconds": RESCAN_SECONDS}
+            "writable": os.access(FONTS_DIR, os.W_OK), "rescan_seconds": RESCAN_SECONDS,
+            "version": os.environ.get("SPECIMEN_VERSION", "dev")[:7]}
 
 
 @app.get("/api/browse")

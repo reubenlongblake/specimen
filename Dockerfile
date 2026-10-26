@@ -10,6 +10,9 @@ COPY requirements.txt .
 RUN pip install -r requirements.txt
 COPY app/ ./app/
 
+ARG VERSION=dev
+ENV SPECIMEN_VERSION=$VERSION
+
 # LIBRARY_ROOT: the folder mounted from the NAS; the font folder is picked inside it in Settings.
 # DATA_DIR: tags, index, settings and preview cache.
 ENV LIBRARY_ROOT=/library \
