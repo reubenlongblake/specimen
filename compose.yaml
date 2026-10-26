@@ -7,7 +7,7 @@
 
 services:
   specimen:
-    image: ghcr.io/GITHUB_USER/specimen:latest
+    image: ghcr.io/reubenlongblake/specimen:latest
     container_name: specimen
     restart: unless-stopped
     user: "568:568"
