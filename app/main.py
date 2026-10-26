@@ -481,6 +481,7 @@ def build_library(files: dict) -> dict:
         cats = [f.get("category") for f in all_faces if f.get("category")]
         groups[gid] = {
             "id": gid, "name": name, "key": key, "merged": key in merged_keys,
+            "renamed": bool(MERGES.data.get("names", {}).get(key)) and key not in merged_keys,
             "families": [{"name": fm["name"], "faces": [f["id"] for f in fm["faces"]]} for fm in fams],
             "styles": len(all_faces), "default": default["id"],
             "latin": default.get("latin", True), "sample": default.get("sample", ""),
@@ -1019,6 +1020,24 @@ async def merge_groups(request: Request):
     _rebuild()
     new_id = next((g["id"] for g in SCANNER.state["groups"].values() if g["key"] == target["key"]), keep)
     return {"ok": True, "id": new_id}
+
+
+@app.post("/api/group/{gid}/rename")
+async def rename_group(gid: str, request: Request):
+    """Set the display name of a family (empty name = back to the automatic one). Files aren't touched."""
+    g = SCANNER.state["groups"].get(gid)
+    if not g:
+        raise HTTPException(404, "Family not found")
+    name = re.sub(r"\s+", " ", str((await request.json()).get("name", ""))).strip()[:120]
+    names = MERGES.data.setdefault("names", {})
+    if name:
+        names[g["key"]] = name
+    else:
+        names.pop(g["key"], None)
+    MERGES.save()
+    _rebuild()  # the id follows the name; migrate_tags carries tags across by file
+    new = next((x for x in SCANNER.state["groups"].values() if x["key"] == g["key"]), None)
+    return {"ok": True, "id": new["id"] if new else gid, "name": new["name"] if new else name}
 
 
 @app.post("/api/group/{gid}/split")

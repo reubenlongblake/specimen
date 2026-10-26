@@ -31,6 +31,7 @@ const P = {
   sun: '<circle cx="12" cy="12" r="4"/><path d="M12 2.5v2M12 19.5v2M21.5 12h-2M4.5 12h-2M18.7 5.3l-1.4 1.4M6.7 17.3l-1.4 1.4M18.7 18.7l-1.4-1.4M6.7 6.7 5.3 5.3"/>',
   moon: '<path d="M19.5 14.5A8 8 0 0 1 9.5 4.5a8 8 0 1 0 10 10Z"/>',
   auto: '<circle cx="12" cy="12" r="8.5"/><path d="M12 3.5v17a8.5 8.5 0 0 0 0-17Z" fill="currentColor" stroke="none"/>',
+  pencil: '<path d="M15.5 5.5l3 3M4 20l1-4L16.5 4.5a2.1 2.1 0 0 1 3 3L8 19Z"/>',
   merge: '<path d="M6 4v4.5c0 2 1.2 3.4 3 4.2l3 1.3 3-1.3c1.8-.8 3-2.2 3-4.2V4M12 14v6M9 17.5l3 3 3-3"/>',
   split: '<path d="M12 20v-6M6 4v4.5c0 2 1.2 3.4 3 4.2l3 1.3 3-1.3c1.8-.8 3-2.2 3-4.2V4M3.5 6.5 6 4l2.5 2.5M15.5 6.5 18 4l2.5 2.5"/>',
   open: '<path d="M13.5 4.5h6v6M19.5 4.5 11 13M18 14v4.5c0 .8-.7 1.5-1.5 1.5h-11c-.8 0-1.5-.7-1.5-1.5v-11C4 6.7 4.7 6 5.5 6H10"/>',
@@ -535,6 +536,7 @@ function groupMenu(pos, ids) {
     one && { label: "Open", kbd: "↵", act: () => openFamily(one.id) },
     { label: one ? "Download Family" : `Download ${ids.length} Families`, act: () => downloadGroups(ids) },
     "-",
+    one && { label: "Rename Family…", act: () => promptRename(one) },
     !one && { label: `Merge ${ids.length} Families…`, act: () => confirmMerge(ids) },
     one?.merged && { label: "Split Merged Family…", act: () => confirmSplit(one) },
     { label: "Add Project ID…", act: () => promptProject(ids) },
@@ -566,6 +568,7 @@ document.addEventListener("keydown", (e) => {
   if (e.key === "/") { e.preventDefault(); $("#q")?.focus(); return; }
   if (mod && e.key.toLowerCase() === "a") { e.preventDefault(); S.sel = new Set(S.order); updateSelection(); return; }
   if (e.key === "Escape") { selectOnly(null); return; }
+  if (e.key === "F2" && S.sel.size === 1) { e.preventDefault(); promptRename(S.byId.get([...S.sel][0])); return; }
   if (e.key === "Enter" && S.sel.size === 1) { openFamily([...S.sel][0]); return; }
   if ((e.key === "Delete" || (e.key === "Backspace" && mod) || e.key === "Backspace") && S.sel.size) { e.preventDefault(); confirmDeleteGroups([...S.sel]); return; }
   const arrows = { ArrowRight: 1, ArrowLeft: -1, ArrowDown: "down", ArrowUp: "up" };
@@ -631,7 +634,7 @@ function renderInspector() {
   const def = g.faces.find((f) => f.id === g.default);
   ins.innerHTML = `
     <div class="ins-preview ${prefs.tileMode === "decade" && g.latin ? "decade" : ""}" data-face="${g.previewable ? g.default : ""}" data-v="${def?.mtime || 0}">${g.previewable ? (prefs.tileMode === "decade" && g.latin ? DECADE_HTML : esc(g.latin ? "Aa" : g.sample.slice(0, 2))) : `<span style="font:12px var(--font-ui);color:var(--text-3)">No preview</span>`}</div>
-    <div><h2 class="ins-name">${esc(g.name)}</h2><div class="ins-sub">${esc(plural(g.styles, "style"))}${g.variable ? " · Variable" : ""}${g.dup ? ` · <span class="pill warn">Duplicates</span>` : ""}</div></div>
+    <div><h2 class="ins-name">${esc(g.name)} <button class="icon-btn" data-act="rename" title="Rename family" style="height:22px;min-width:22px;padding:0;vertical-align:middle">${icon("pencil")}</button></h2><div class="ins-sub">${esc(plural(g.styles, "style"))}${g.variable ? " · Variable" : ""}${g.dup ? ` · <span class="pill warn">Duplicates</span>` : ""}</div></div>
     <div class="ins-actions">
       <button class="btn primary" data-act="dl">${icon("download")}Download</button>
       <button class="btn" data-act="open">Open</button>
@@ -659,6 +662,7 @@ function renderInspector() {
   ins.querySelector('[data-act="open"]').onclick = () => openFamily(g.id);
   ins.querySelector('[data-act="del"]').onclick = () => confirmDeleteGroups([g.id]);
   ins.querySelector('[data-act="split"]')?.addEventListener("click", () => confirmSplit(g));
+  ins.querySelector('[data-act="rename"]').onclick = () => promptRename(g);
   bindTagEditor(ins, g);
 }
 
@@ -826,6 +830,28 @@ function confirmMerge(ids) {
     } catch (e) { closeSheet(); toast(e.message); }
   };
 }
+function promptRename(g) {
+  openSheet(`<h3>Rename Family</h3>
+    <p>Changes the name Specimen shows and searches for. Tags and project IDs stay with it, and the font files aren't changed, so design apps will still use the font's built-in name.</p>
+    <input class="input" id="rnName" value="${esc(g.name)}" spellcheck="false" autocomplete="off">
+    <div class="acts" style="align-items:center">${g.renamed ? `<button class="btn" id="rnReset" style="margin-right:auto">Reset to Automatic Name</button>` : ""}
+      <button class="btn" id="rnNo">Cancel</button><button class="btn primary" id="rnYes">Rename</button></div>`);
+  const input = $("#rnName");
+  setTimeout(() => input.select(), 40);
+  const go = async (name) => {
+    try {
+      const r = await api(`/api/group/${encodeURIComponent(g.id)}/rename`, { method: "POST", json: { name } });
+      closeSheet();
+      if (S.route.name === "family") { S.detail = null; location.replace(`#/family/${encodeURIComponent(r.id)}`); await loadLibrary(); renderSidebar(); }
+      else { if (S.sel.has(g.id)) { S.sel.delete(g.id); S.sel.add(r.id); S.anchor = r.id; } await refreshAfterChange(); }
+      toast(name ? `Renamed to ${r.name}` : `Back to ${r.name}`);
+    } catch (e) { toast(e.message); }
+  };
+  $("#rnNo").onclick = closeSheet;
+  $("#rnYes").onclick = () => { const v = input.value.trim(); if (v && v !== g.name) go(v); else closeSheet(); };
+  input.onkeydown = (e) => { if (e.key === "Enter") $("#rnYes").click(); };
+  $("#rnReset")?.addEventListener("click", () => go(""));
+}
 function confirmSplit(g) {
   confirmSheet(`Split “${g.name}” back into separate families?`, "This undoes the merge. Each family gets its own tile again, starting with a copy of this family's tags.", "Split", async () => {
     const r = await api(`/api/group/${encodeURIComponent(g.id)}/split`, { method: "POST" });
@@ -906,6 +932,7 @@ async function renderFamily(reload = false) {
   $("#famDl").onclick = () => { downloadGroups([g.id]); };
   $("#famMore").onclick = (e) => showMenu(e.currentTarget, [
     { label: "Add Project ID…", act: () => promptProject([g.id], () => renderFamily(true)) },
+    { label: "Rename Family…", act: () => promptRename(g) },
     g.merged && { label: "Split Merged Family…", act: () => confirmSplit(g) },
     { label: "Copy Folder Path", act: () => copyText(`${S.fontsDir}/${g.faces[g.default].path.split("/").slice(0, -1).join("/")}`.replace(/\/$/, "")) },
     "-",

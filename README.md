@@ -38,6 +38,7 @@ docker run -p 8095:8095 -v /path/to/fonts-parent:/library -v /path/to/data:/data
 - **Add fonts:** drag font files or `.zip` archives onto the window, or use the + button. Zips are unpacked into a folder named after the zip.
 - **Project IDs:** add them in the inspector (Enter to add, suggestions from IDs you've used before), select several families to tag them all at once, or drag tiles onto a project in the sidebar. Search finds fonts by project ID too.
 - **Licence:** Open (green), Closed (red) or Unknown, plus a free-text note. Dragging tiles onto a licence in the sidebar sets it in bulk. The Info tab shows the licence text embedded in the font file itself, which is handy for checking.
+- **Rename:** pencil next to the name in the inspector, right-click > Rename Family, the family page's ... menu, or F2. Display only: tags stay attached and the font files aren't changed. Reset to Automatic Name undoes it.
 - **Merge:** if two tiles are clearly the same family, select both and choose *Merge into One Family* in the inspector (or right-click). Pick which name to keep; tags are combined. Nothing on disk changes, and *Split Merged Family* undoes it.
 - **Sort:** Name, Project ID, Date Added, Last Downloaded or Last Used. Pick the same option again to reverse it.
 - **Appearance:** the button in the bottom-left toggles Match System, Light or Dark.
