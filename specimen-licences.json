@@ -1,0 +1,995 @@
+[
+ {
+  "family": "Acrom",
+  "licence": "closed",
+  "note": "Commercial (Northern Block / Inhouse Type).",
+  "files": [
+   "Acrom-Bold.otf",
+   "Acrom-ExtraBold.otf",
+   "Acrom-Light.otf",
+   "Acrom-Medium.otf",
+   "Acrom-Regular.otf",
+   "Acrom-Thin.otf"
+  ]
+ },
+ {
+  "family": "Acumin Pro",
+  "licence": "closed",
+  "note": "Adobe Originals. Available through Adobe Fonts with Creative Cloud; not free.",
+  "files": [
+   "Acumin-BdItPro.otf",
+   "Acumin-BdPro.otf",
+   "Acumin-ItPro.otf",
+   "Acumin-RPro.otf"
+  ]
+ },
+ {
+  "family": "ITC Clearface Std",
+  "licence": "closed",
+  "note": "ITC, sold by Adobe/Monotype. Commercial.",
+  "files": [
+   "Adobe - ClearfaceStd-Italic.otf"
+  ]
+ },
+ {
+  "family": "Adobe Heiti Std",
+  "licence": "closed",
+  "note": "Adobe. Commercial.",
+  "files": [
+   "adobe-heiti-std-r-591088eaa19ae.otf"
+  ]
+ },
+ {
+  "family": "Amery Brush",
+  "licence": "closed",
+  "note": "itypeface. Free download is personal use only; commercial licence must be bought.",
+  "files": [
+   "AmeryBrush.otf"
+  ]
+ },
+ {
+  "family": "Chromium One",
+  "licence": "closed",
+  "note": "ITC. Commercial.",
+  "files": [
+   "Chromium One Std Regular.otf"
+  ]
+ },
+ {
+  "family": "CODE",
+  "licence": "closed",
+  "note": "Fontfabric. The current Code Pro is commercial; this older 'CODE Light/Bold' was a giveaway, but I couldn't confirm its terms. Check before commercial use.",
+  "files": [
+   "CODE Bold.otf",
+   "CODE Light.otf"
+  ]
+ },
+ {
+  "family": "Colaborate",
+  "licence": "open",
+  "note": "Ralph Oliver du Carrois. GPL v3 (listed on Font Squirrel). Free for commercial use.",
+  "files": [
+   "ColabBol.otf",
+   "ColabLig.otf",
+   "ColabMed.otf",
+   "ColabReg.otf",
+   "ColabThi.otf"
+  ]
+ },
+ {
+  "family": "Garden Grown",
+  "licence": "closed",
+  "note": "Cultivated Mind. Commercial.",
+  "files": [
+   "Cultivated Mind - Garden Grown Caps.otf",
+   "Cultivated Mind - Garden Grown.otf"
+  ]
+ },
+ {
+  "family": "Essonnes Test",
+  "licence": "closed",
+  "note": "Production Type trial fonts. For testing only, not for commercial work.",
+  "files": [
+   "EssonnesTest-DisplayBold-BF643e00dc749c6.otf",
+   "EssonnesTest-DisplayBoldItalic-BF643e00dfaad7c.otf",
+   "EssonnesTest-DisplayItalic-BF643e00dc9a700.otf",
+   "EssonnesTest-DisplayLight-BF643e00df9c370.otf",
+   "EssonnesTest-DisplayLightItalic-BF643e00dd0edcf.otf",
+   "EssonnesTest-DisplayRegular-BF643e00dfae085.otf",
+   "EssonnesTest-HeadlineBold-BF643e00dd6a4b8.otf",
+   "EssonnesTest-HeadlineBoldItalic-BF643e00de7b3d5.otf",
+   "EssonnesTest-HeadlineItalic-BF643e00deb1c16.otf",
+   "EssonnesTest-HeadlineRegular-BF643e00dd72b5b.otf",
+   "EssonnesTest-HeadlineThin-BF643e00deb1d1c.otf",
+   "EssonnesTest-HeadlineThinItalic-BF643e00df100ae.otf",
+   "EssonnesTest-TextBold-BF643e00df62577.otf",
+   "EssonnesTest-TextBoldItalic-BF643e00df142f3.otf",
+   "EssonnesTest-TextItalic-BF643e00df58ea9.otf",
+   "EssonnesTest-TextRegular-BF643e00df501dc.otf"
+  ]
+ },
+ {
+  "family": "Eveleth",
+  "licence": "closed",
+  "note": "Yellow Design Studio. Commercial.",
+  "files": [
+   "EvelethThin.otf"
+  ]
+ },
+ {
+  "family": "Panton",
+  "licence": "closed",
+  "note": "Fontfabric. Commercial.",
+  "files": [
+   "Fontfabric - Panton Regular.otf",
+   "Fontfabric - Panton SemiBold.otf"
+  ]
+ },
+ {
+  "family": "Futura",
+  "licence": "closed",
+  "note": "Commercial (Futura PT from ParaType, Futura Now from Monotype, Futura BT from Bitstream, Futura from Linotype/Neufville).",
+  "files": [
+   "Futura Bold Condensed.otf",
+   "Futura-CondensedLight.otf",
+   "futura-now-text-bd.otf",
+   "futura-now-text-medium.otf",
+   "futura-now-text-xbd.otf",
+   "futura-now-text.otf",
+   "FuturaPTBold.otf",
+   "FuturaPTBoldOblique.otf",
+   "FuturaPTBook.otf",
+   "FuturaPTBookOblique.otf",
+   "FuturaPTCondBold.otf",
+   "FuturaPTCondBoldOblique.otf",
+   "FuturaPTCondBook.otf",
+   "FuturaPTCondBookOblique.otf",
+   "FuturaPTCondExtraBold.otf",
+   "FuturaPTCondExtraBoldOblique.otf",
+   "FuturaPTCondMedium.otf",
+   "FuturaPTCondMediumOblique.otf",
+   "FuturaPTDemi.otf",
+   "FuturaPTDemiOblique.otf",
+   "FuturaPTExtraBold.otf",
+   "FuturaPTExtraBoldOblique.otf",
+   "FuturaPTHeavy.otf",
+   "FuturaPTHeavyOblique.otf",
+   "FuturaPTLight.otf",
+   "FuturaPTLightOblique.otf",
+   "FuturaPTMedium.otf",
+   "FuturaPTMediumOblique.otf",
+   "futur.ttf",
+   "Futura Bold font.ttf",
+   "Futura Bold Italic font.ttf",
+   "Futura Book font.ttf",
+   "Futura Book Italic font.ttf",
+   "Futura Extra Black font.ttf",
+   "Futura Heavy font.ttf",
+   "Futura Heavy Italic font.ttf",
+   "futura light bt.ttf",
+   "Futura Light font.ttf",
+   "Futura Light Italic font.ttf",
+   "futura medium bt.ttf",
+   "futura medium condensed bt.ttf",
+   "Futura Medium Italic font.ttf",
+   "Futura XBlk BT.ttf",
+   "Futura-Book.ttf",
+   "FuturaCyrillicBold.ttf",
+   "FuturaCyrillicBook.ttf",
+   "FuturaCyrillicDemi.ttf",
+   "FuturaCyrillicExtraBold.ttf",
+   "FuturaCyrillicHeavy.ttf",
+   "FuturaCyrillicLight.ttf",
+   "FuturaCyrillicMedium.ttf",
+   "unicode.futurab.ttf",
+   "unicode.futurabb.ttf"
+  ]
+ },
+ {
+  "family": "GT America",
+  "licence": "closed",
+  "note": "Grilli Type. Commercial.",
+  "files": [
+   "GT-America-Black-Italic.otf",
+   "GT-America-Black.otf",
+   "GT-America-Bold-Italic.otf",
+   "GT-America-Bold.otf",
+   "GT-America-Compressed-Black-Italic.otf",
+   "GT-America-Compressed-Black.otf",
+   "GT-America-Compressed-Bold-Italic.otf",
+   "GT-America-Compressed-Bold.otf",
+   "GT-America-Compressed-Light-Italic.otf",
+   "GT-America-Compressed-Light.otf",
+   "GT-America-Compressed-Medium-Italic.otf",
+   "GT-America-Compressed-Medium.otf",
+   "GT-America-Compressed-Regular-Italic.otf",
+   "GT-America-Compressed-Regular.otf",
+   "GT-America-Compressed-Thin-Italic.otf",
+   "GT-America-Compressed-Thin.otf",
+   "GT-America-Compressed-Ultra-Light-Italic.otf",
+   "GT-America-Compressed-Ultra-Light.otf",
+   "GT-America-Condensed-Black-Italic.otf",
+   "GT-America-Condensed-Black.otf",
+   "GT-America-Condensed-Bold-Italic.otf",
+   "GT-America-Condensed-Bold.otf",
+   "GT-America-Condensed-Light-Italic.otf",
+   "GT-America-Condensed-Light.otf",
+   "GT-America-Condensed-Medium-Italic.otf",
+   "GT-America-Condensed-Medium.otf",
+   "GT-America-Condensed-Regular-Italic.otf",
+   "GT-America-Condensed-Regular.otf",
+   "GT-America-Condensed-Thin-Italic.otf",
+   "GT-America-Condensed-Thin.otf",
+   "GT-America-Condensed-Ultra-Light-Italic.otf",
+   "GT-America-Condensed-Ultra-Light.otf",
+   "GT-America-Expanded-Black-Italic.otf",
+   "GT-America-Expanded-Black.otf",
+   "GT-America-Expanded-Bold-Italic.otf",
+   "GT-America-Expanded-Bold.otf",
+   "GT-America-Expanded-Light-Italic.otf",
+   "GT-America-Expanded-Light.otf",
+   "GT-America-Expanded-Medium-Italic.otf",
+   "GT-America-Expanded-Medium.otf",
+   "GT-America-Expanded-Regular-Italic.otf",
+   "GT-America-Expanded-Regular.otf",
+   "GT-America-Expanded-Thin-Italic.otf",
+   "GT-America-Expanded-Thin.otf",
+   "GT-America-Expanded-Ultra-Light-Italic.otf",
+   "GT-America-Expanded-Ultra-Light.otf",
+   "GT-America-Extended-Black-Italic.otf",
+   "GT-America-Extended-Black.otf",
+   "GT-America-Extended-Bold-Italic.otf",
+   "GT-America-Extended-Bold.otf",
+   "GT-America-Extended-Light-Italic.otf",
+   "GT-America-Extended-Light.otf",
+   "GT-America-Extended-Medium-Italic.otf",
+   "GT-America-Extended-Medium.otf",
+   "GT-America-Extended-Regular-Italic.otf",
+   "GT-America-Extended-Regular.otf",
+   "GT-America-Extended-Thin-Italic.otf",
+   "GT-America-Extended-Thin.otf",
+   "GT-America-Extended-Ultra-Light-Italic.otf",
+   "GT-America-Extended-Ultra-Light.otf",
+   "GT-America-Light-Italic.otf",
+   "GT-America-Light.otf",
+   "GT-America-Medium-Italic.otf",
+   "GT-America-Medium.otf",
+   "GT-America-Mono-Black-Italic.otf",
+   "GT-America-Mono-Black.otf",
+   "GT-America-Mono-Bold-Italic.otf",
+   "GT-America-Mono-Bold.otf",
+   "GT-America-Mono-Light-Italic.otf",
+   "GT-America-Mono-Light.otf",
+   "GT-America-Mono-Medium-Italic.otf",
+   "GT-America-Mono-Medium.otf",
+   "GT-America-Mono-Regular-Italic.otf",
+   "GT-America-Mono-Regular.otf",
+   "GT-America-Mono-Thin-Italic.otf",
+   "GT-America-Mono-Thin.otf",
+   "GT-America-Mono-Ultra-Light-Italic.otf",
+   "GT-America-Mono-Ultra-Light.otf",
+   "GT-America-Regular-Italic.otf",
+   "GT-America-Regular.otf",
+   "GT-America-Thin-Italic.otf",
+   "GT-America-Thin.otf",
+   "GT-America-Ultra-Light-Italic.otf",
+   "GT-America-Ultra-Light.otf"
+  ]
+ },
+ {
+  "family": "Halogen Gas Lights",
+  "licence": "closed",
+  "note": "Chequered Ink. Free for personal use only; commercial licence from Chequered Ink.",
+  "files": [
+   "Halogen Gas Lights.otf"
+  ]
+ },
+ {
+  "family": "Helvetica Neue",
+  "licence": "closed",
+  "note": "Linotype / Monotype. Commercial.",
+  "files": [
+   "HelveticaNeueLTStd-ThEx.otf",
+   "HELVENBE.TTF",
+   "HELVENHE.TTF",
+   "HELVENLE.TTF",
+   "HELVENTE.TTF",
+   "HelveticaNeue Light.ttf",
+   "HelveticaNeue Medium.ttf",
+   "HELVETNE.TTF"
+  ]
+ },
+ {
+  "family": "Library 3 AM",
+  "licence": "open",
+  "note": "Igor Kosinsky. Free for commercial use (Font Squirrel).",
+  "files": [
+   "Library3am-5V3Z.otf",
+   "Library3amsoft-6zgq.otf"
+  ]
+ },
+ {
+  "family": "Trade Gothic",
+  "licence": "closed",
+  "note": "Linotype. Commercial.",
+  "files": [
+   "Linotype - TradeGothicLTPro-BdCn20.otf"
+  ]
+ },
+ {
+  "family": "Linotype Univers",
+  "licence": "closed",
+  "note": "Linotype. Commercial.",
+  "files": [
+   "LinotypeUnivers-BasicBold.otf",
+   "LinotypeUnivers-BasicLight.otf"
+  ]
+ },
+ {
+  "family": "Meta Headline",
+  "licence": "closed",
+  "note": "FontFont / Monotype. Commercial.",
+  "files": [
+   "MetaHeadline-Regular.otf",
+   "MetaHeadlineCompOT-Black.otf",
+   "MetaHeadlineCondOT-Black.otf",
+   "MetaHeadlineCondOT-Bold.otf",
+   "MetaHeadlineCondOT-Regular.otf",
+   "MetaHeadlineOT-Black.otf",
+   "MetaHeadlineOT-Bold.otf"
+  ]
+ },
+ {
+  "family": "Minion Pro",
+  "licence": "closed",
+  "note": "Adobe Originals. Commercial (bundled with some Adobe apps for use within them).",
+  "files": [
+   "MinionPro-Bold.otf",
+   "MinionPro-BoldCn.otf",
+   "MinionPro-BoldCnIt.otf",
+   "MinionPro-BoldIt.otf",
+   "MinionPro-It.otf",
+   "MinionPro-Medium.otf",
+   "MinionPro-MediumIt.otf",
+   "MinionPro-Regular.otf",
+   "MinionPro-Semibold.otf",
+   "MinionPro-SemiboldIt.otf"
+  ]
+ },
+ {
+  "family": "Museo Sans",
+  "licence": "open",
+  "note": "exljbris. The 500 weight is one of Museo Sans' free weights; the exljbris free font EULA allows commercial use. Other weights are paid.",
+  "files": [
+   "MuseoSans_500_Italic.otf",
+   "MuseoSans_500.otf"
+  ]
+ },
+ {
+  "family": "Myriad Pro",
+  "licence": "closed",
+  "note": "Adobe Originals. Commercial (bundled with some Adobe apps for use within them).",
+  "files": [
+   "MyriadPro-Bold.otf",
+   "MYRIADPRO-REGULAR.OTF"
+  ]
+ },
+ {
+  "family": "Neusa",
+  "licence": "closed",
+  "note": "Northern Block. Commercial.",
+  "files": [
+   "Neusa Black.otf",
+   "Neusa Bold.otf",
+   "Neusa DemiBold.otf",
+   "Neusa ExtraBold.otf",
+   "Neusa Light.otf",
+   "Neusa Medium.otf",
+   "Neusa Regular.otf",
+   "Neusa SemiBold.otf",
+   "Neusa-Black.otf",
+   "Neusa-Bold.otf",
+   "Neusa-DemiBold.otf",
+   "Neusa-ExtraBold.otf",
+   "Neusa-Light.otf",
+   "Neusa-Medium.otf",
+   "Neusa-Regular.otf",
+   "Neusa-SemiBold.otf"
+  ]
+ },
+ {
+  "family": "Panton Demo",
+  "licence": "closed",
+  "note": "Fontfabric demo. Personal use only; buy Panton for commercial work.",
+  "files": [
+   "PantonDemo-Black.otf",
+   "PantonDemo-BlackItalic.otf",
+   "PantonDemo-Light.otf",
+   "PantonDemo-LightItalic.otf",
+   "PantonNarrowDemo-Black.otf",
+   "PantonNarrowDemo-BlackItalic.otf",
+   "PantonNarrowDemo-Light.otf",
+   "PantonNarrowDemo-LightItalic.otf"
+  ]
+ },
+ {
+  "family": "Rama Gothic",
+  "licence": "closed",
+  "note": "Commercial (this is a Monotype web font file).",
+  "files": [
+   "Rama Gothic M W01 Heavy.otf"
+  ]
+ },
+ {
+  "family": "RomanaBT",
+  "licence": "closed",
+  "note": "Bitstream. Commercial.",
+  "files": [
+   "RomanaBT-Bold.otf"
+  ]
+ },
+ {
+  "family": "Suciellid",
+  "licence": "closed",
+  "note": "Intellecta Design. Commercial.",
+  "files": [
+   "Suciellid.otf"
+  ]
+ },
+ {
+  "family": "Typographiction",
+  "licence": "closed",
+  "note": "Couldn't verify a commercial licence. Treat as personal use only until you check where it came from.",
+  "files": [
+   "Typographiction10R.otf",
+   "Typographiction11RI.otf",
+   "Typographiction20B.otf",
+   "Typographiction21BI.otf"
+  ]
+ },
+ {
+  "family": "Verlag",
+  "licence": "closed",
+  "note": "Hoefler&Co. Commercial.",
+  "files": [
+   "Verlag Bold.otf",
+   "Verlag-Bold.otf",
+   "Verlag-Book.otf",
+   "Verlag Bold.ttf"
+  ]
+ },
+ {
+  "family": "Channel 4 Text",
+  "licence": "closed",
+  "note": "Channel 4 corporate typeface. Not licensed for outside use.",
+  "files": [
+   "4Text-Bold.ttf",
+   "4Text-Light.ttf",
+   "4Text-Regular.ttf"
+  ]
+ },
+ {
+  "family": "321impact",
+  "licence": "closed",
+  "note": "Couldn't verify a commercial licence. Treat as personal use only until you check where it came from.",
+  "files": [
+   "321impact.ttf"
+  ]
+ },
+ {
+  "family": "Alien Encounters",
+  "licence": "closed",
+  "note": "ShyFonts. Freeware for personal use only; commercial licence from the designer.",
+  "files": [
+   "Alien-Encounters-Bold-Italic.ttf",
+   "Alien-Encounters-Bold.ttf",
+   "Alien-Encounters-Italic.ttf",
+   "Alien-Encounters-Regular.ttf",
+   "Alien-Encounters-Solid-Bold-Italic.ttf",
+   "Alien-Encounters-Solid-Bold.ttf",
+   "Alien-Encounters-Solid-Italic.ttf",
+   "Alien-Encounters-Solid-Regular.ttf"
+  ]
+ },
+ {
+  "family": "Andale Mono",
+  "licence": "closed",
+  "note": "Microsoft/Monotype font bundled with Windows or Office. Fine to use on a licensed machine, but not free to redistribute or embed outside that licence.",
+  "files": [
+   "Andalemo.TTF"
+  ]
+ },
+ {
+  "family": "Archivo Black",
+  "licence": "open",
+  "note": "SIL Open Font License (Google Fonts). Free for commercial use.",
+  "files": [
+   "ArchivoBlack-Regular.ttf"
+  ]
+ },
+ {
+  "family": "Arial Narrow",
+  "licence": "closed",
+  "note": "Microsoft/Monotype font bundled with Windows or Office. Fine to use on a licensed machine, but not free to redistribute or embed outside that licence.",
+  "files": [
+   "ARIALNI.TTF"
+  ]
+ },
+ {
+  "family": "Asgard Trial",
+  "licence": "closed",
+  "note": "Trial version. Not for commercial use.",
+  "files": [
+   "AsgardTrial-WideBold.ttf",
+   "AsgardTrial-WideBoldBackslant.ttf",
+   "AsgardTrial-WideBoldItalic.ttf",
+   "AsgardTrial-WideFat.ttf",
+   "AsgardTrial-WideFatBackslant.ttf",
+   "AsgardTrial-WideFatItalic.ttf",
+   "AsgardTrial-WideLight.ttf",
+   "AsgardTrial-WideLightBackslant.ttf",
+   "AsgardTrial-WideLightItalic.ttf",
+   "AsgardTrial-WideMedium.ttf",
+   "AsgardTrial-WideMediumBackslant.ttf",
+   "AsgardTrial-WideMediumItalic.ttf",
+   "AsgardTrial-WideRegular.ttf",
+   "AsgardTrial-WideRegularBackslant.ttf",
+   "AsgardTrial-WideRegularItalic.ttf",
+   "AsgardTrial-WideThin.ttf",
+   "AsgardTrial-WideThinBackslant.ttf",
+   "AsgardTrial-WideThinItalic.ttf",
+   "AsgardTrial-WideXbold.ttf",
+   "AsgardTrial-WideXboldBackslant.ttf",
+   "AsgardTrial-WideXboldItalic.ttf",
+   "AsgardTrial-WideXlight.ttf",
+   "AsgardTrial-WideXlightBackslant.ttf",
+   "AsgardTrial-WideXlightItalic.ttf"
+  ]
+ },
+ {
+  "family": "A Song for Jennifer",
+  "licence": "closed",
+  "note": "Brittney Murphy Design. Free version is personal use; commercial licence is sold on Fontspring.",
+  "files": [
+   "asongforjennifer_0.ttf",
+   "asongforjenniferbold_0.ttf"
+  ]
+ },
+ {
+  "family": "AUGIE",
+  "licence": "closed",
+  "note": "Couldn't verify a commercial licence. Treat as personal use only until you check where it came from.",
+  "files": [
+   "AUGIE___.TTF"
+  ]
+ },
+ {
+  "family": "Avenir",
+  "licence": "closed",
+  "note": "Linotype. Commercial.",
+  "files": [
+   "Avenir LT 65 Medium.ttf",
+   "Avenir_65_Medium.ttf"
+  ]
+ },
+ {
+  "family": "ITC Avant Garde Gothic",
+  "licence": "closed",
+  "note": "ITC / Monotype. Commercial.",
+  "files": [
+   "AVGARDM.TTF",
+   "AVGARDMI.TTF",
+   "AVGARDN.TTF",
+   "AVGARDNI.TTF"
+  ]
+ },
+ {
+  "family": "Bahnschrift",
+  "licence": "closed",
+  "note": "Microsoft/Monotype font bundled with Windows or Office. Fine to use on a licensed machine, but not free to redistribute or embed outside that licence.",
+  "files": [
+   "bahnschrift.ttf"
+  ]
+ },
+ {
+  "family": "Commando",
+  "licence": "closed",
+  "note": "Iconian Fonts. Free for personal use; commercial licence required.",
+  "files": [
+   "commando.ttf"
+  ]
+ },
+ {
+  "family": "ConJitrs",
+  "licence": "closed",
+  "note": "Couldn't verify a commercial licence. Treat as personal use only until you check where it came from.",
+  "files": [
+   "ConJitrs.ttf"
+  ]
+ },
+ {
+  "family": "Copperplate Gothic",
+  "licence": "closed",
+  "note": "Microsoft/Monotype font bundled with Windows or Office. Fine to use on a licensed machine, but not free to redistribute or embed outside that licence.",
+  "files": [
+   "COPRGTB.TTF",
+   "COPRGTL.TTF"
+  ]
+ },
+ {
+  "family": "CORAZON",
+  "licence": "closed",
+  "note": "Couldn't verify a commercial licence. Treat as personal use only until you check where it came from.",
+  "files": [
+   "CORAZON_.TTF"
+  ]
+ },
+ {
+  "family": "Crique Grotesk",
+  "licence": "closed",
+  "note": "Stawix. Commercial.",
+  "files": [
+   "CriqueGrotesk-BlackItalic.ttf",
+   "CriqueGrotesk-Italic.ttf"
+  ]
+ },
+ {
+  "family": "Decorated035",
+  "licence": "closed",
+  "note": "Bitstream. Commercial.",
+  "files": [
+   "Decorated035-BT-Regular.ttf"
+  ]
+ },
+ {
+  "family": "digitalism",
+  "licence": "closed",
+  "note": "Couldn't verify a commercial licence. Treat as personal use only until you check where it came from.",
+  "files": [
+   "digitalism.ttf"
+  ]
+ },
+ {
+  "family": "Dry",
+  "licence": "closed",
+  "note": "Couldn't verify a commercial licence. Treat as personal use only until you check where it came from.",
+  "files": [
+   "Dry Brush.ttf"
+  ]
+ },
+ {
+  "family": "euphorigenic",
+  "licence": "open",
+  "note": "Ray Larabie / Typodermic free font. Typodermic's free licence allows commercial use.",
+  "files": [
+   "euphorigenic.ttf"
+  ]
+ },
+ {
+  "family": "EY Interstate",
+  "licence": "closed",
+  "note": "EY corporate version of Interstate (Font Bureau). Not licensed for outside use.",
+  "files": [
+   "EYInterstate-Bold.ttf",
+   "EYInterstate-BoldItalic.ttf",
+   "EYInterstate-Italic.ttf",
+   "EYInterstate-Light.ttf",
+   "EYInterstate-LightBold.ttf",
+   "EYInterstate-LightBoldItalic.ttf",
+   "EYInterstate-LightItalic.ttf",
+   "EYInterstate-Regular.ttf"
+  ]
+ },
+ {
+  "family": "Function",
+  "licence": "closed",
+  "note": "Couldn't verify a commercial licence. Treat as personal use only until you check where it came from.",
+  "files": [
+   "Function Bold.ttf",
+   "Function Regular.ttf"
+  ]
+ },
+ {
+  "family": "Garamond",
+  "licence": "closed",
+  "note": "Microsoft/Monotype font bundled with Windows or Office. Fine to use on a licensed machine, but not free to redistribute or embed outside that licence.",
+  "files": [
+   "gara.ttf",
+   "garabd.ttf",
+   "garait.ttf"
+  ]
+ },
+ {
+  "family": "Gill Sans MT",
+  "licence": "closed",
+  "note": "Microsoft/Monotype font bundled with Windows or Office. Fine to use on a licensed machine, but not free to redistribute or embed outside that licence.",
+  "files": [
+   "GIL_____.TTF",
+   "Gill Sans MT Bold Italic.ttf",
+   "Gill Sans MT Bold.ttf",
+   "Gill Sans MT Italic.ttf",
+   "Gill Sans MT.ttf"
+  ]
+ },
+ {
+  "family": "Goudy",
+  "licence": "closed",
+  "note": "Microsoft/Monotype font bundled with Windows or Office. Fine to use on a licensed machine, but not free to redistribute or embed outside that licence.",
+  "files": [
+   "GOUDOS.TTF",
+   "GOUDOSB.TTF",
+   "GOUDOSI.TTF",
+   "GOUDYSTO.TTF"
+  ]
+ },
+ {
+  "family": "Hasteristico",
+  "licence": "closed",
+  "note": "Couldn't verify a commercial licence. Treat as personal use only until you check where it came from.",
+  "files": [
+   "Hasteristico.ttf"
+  ]
+ },
+ {
+  "family": "HasteristicoBOLD",
+  "licence": "closed",
+  "note": "Couldn't verify a commercial licence. Treat as personal use only until you check where it came from.",
+  "files": [
+   "HasteristicoBOLD.ttf"
+  ]
+ },
+ {
+  "family": "Impact Label",
+  "licence": "open",
+  "note": "Tension Type. Free for commercial use (Font Squirrel).",
+  "files": [
+   "Impact Label Reversed.ttf"
+  ]
+ },
+ {
+  "family": "ITV",
+  "licence": "closed",
+  "note": "ITV corporate typeface. Not licensed for outside use.",
+  "files": [
+   "ITV Font-Bold.ttf",
+   "ITV Font-Light.ttf",
+   "ITV Font-Medium.ttf",
+   "ITV Font-Regular.ttf"
+  ]
+ },
+ {
+  "family": "Kanit",
+  "licence": "open",
+  "note": "SIL Open Font License (Google Fonts). Free for commercial use.",
+  "files": [
+   "Kanit-Black.ttf",
+   "Kanit-BlackItalic.ttf",
+   "Kanit-Bold.ttf",
+   "Kanit-BoldItalic.ttf",
+   "Kanit-ExtraBold.ttf",
+   "Kanit-ExtraBoldItalic.ttf",
+   "Kanit-ExtraLight.ttf",
+   "Kanit-ExtraLightItalic.ttf",
+   "Kanit-Italic.ttf",
+   "Kanit-Light.ttf",
+   "Kanit-LightItalic.ttf",
+   "Kanit-Medium.ttf",
+   "Kanit-MediumItalic.ttf",
+   "Kanit-Regular.ttf",
+   "Kanit-SemiBold.ttf",
+   "Kanit-SemiBoldItalic.ttf",
+   "Kanit-Thin.ttf",
+   "Kanit-ThinItalic.ttf"
+  ]
+ },
+ {
+  "family": "Lucida",
+  "licence": "closed",
+  "note": "Microsoft/Monotype font bundled with Windows or Office. Fine to use on a licensed machine, but not free to redistribute or embed outside that licence.",
+  "files": [
+   "l_10646.ttf",
+   "LBRITE.TTF",
+   "LBRITED.TTF",
+   "LBRITEDI.TTF",
+   "LBRITEI.TTF",
+   "LCALLIG.TTF",
+   "LFAX.TTF",
+   "LFAXD.TTF",
+   "LFAXDI.TTF",
+   "LFAXI.TTF",
+   "LHANDW.TTF",
+   "LSANS.TTF",
+   "LSANSD.TTF",
+   "LSANSDI.TTF",
+   "LSANSI.TTF",
+   "LTYPE.TTF",
+   "LTYPEB.TTF",
+   "LTYPEBO.TTF",
+   "LTYPEO.TTF",
+   "lucon.ttf"
+  ]
+ },
+ {
+  "family": "libel",
+  "licence": "open",
+  "note": "Ray Larabie / Typodermic free font. Typodermic's free licence allows commercial use.",
+  "files": [
+   "libel-suit-rg.ttf"
+  ]
+ },
+ {
+  "family": "Libre Caslon Text",
+  "licence": "open",
+  "note": "SIL Open Font License (Google Fonts). Free for commercial use.",
+  "files": [
+   "LibreCaslonText-Bold.ttf",
+   "LibreCaslonText-Italic.ttf",
+   "LibreCaslonText-Regular.ttf"
+  ]
+ },
+ {
+  "family": "MADE Canvas",
+  "licence": "closed",
+  "note": "MadeType. Free download is personal use only.",
+  "files": [
+   "MADEC___.TTF"
+  ]
+ },
+ {
+  "family": "Manrope",
+  "licence": "open",
+  "note": "SIL Open Font License (Google Fonts). Free for commercial use.",
+  "files": [
+   "Manrope-Bold.ttf",
+   "Manrope-ExtraBold.ttf",
+   "Manrope-ExtraLight.ttf",
+   "Manrope-Light.ttf",
+   "Manrope-Medium.ttf",
+   "Manrope-Regular.ttf",
+   "Manrope-SemiBold.ttf"
+  ]
+ },
+ {
+  "family": "Proxima Nova",
+  "licence": "closed",
+  "note": "Mark Simonson Studio. Commercial.",
+  "files": [
+   "Mark Simonson - Proxima Nova Bold.ttf",
+   "Mark Simonson - Proxima Nova.ttf",
+   "Proxima Nova Extrabold.ttf"
+  ]
+ },
+ {
+  "family": "Moms Typewriter",
+  "licence": "open",
+  "note": "Free for commercial use (Font Squirrel).",
+  "files": [
+   "Moms_typewriter.ttf"
+  ]
+ },
+ {
+  "family": "MostraOne",
+  "licence": "closed",
+  "note": "Couldn't verify a commercial licence. Treat as personal use only until you check where it came from.",
+  "files": [
+   "MostraOne-Bold.ttf"
+  ]
+ },
+ {
+  "family": "Motor",
+  "licence": "closed",
+  "note": "Couldn't verify a commercial licence. Treat as personal use only until you check where it came from.",
+  "files": [
+   "Motor Oil 1937 M54-1.ttf"
+  ]
+ },
+ {
+  "family": "Noveo Sans",
+  "licence": "closed",
+  "note": "Commercial retail family.",
+  "files": [
+   "NoveoSans-Black.ttf",
+   "NoveoSans-BlackCond.ttf",
+   "NoveoSans-BlackXtraCond.ttf",
+   "NoveoSans-Bold.ttf",
+   "NoveoSans-Book.ttf",
+   "NoveoSans-Light.ttf"
+  ]
+ },
+ {
+  "family": "Pannartz",
+  "licence": "closed",
+  "note": "Suomi Type Foundry. Commercial.",
+  "files": [
+   "PANNARTZBook.ttf"
+  ]
+ },
+ {
+  "family": "Press",
+  "licence": "closed",
+  "note": "Couldn't verify a commercial licence. Treat as personal use only until you check where it came from.",
+  "files": [
+   "Press Style Extra L.ttf"
+  ]
+ },
+ {
+  "family": "Rockwell",
+  "licence": "closed",
+  "note": "Microsoft/Monotype font bundled with Windows or Office. Fine to use on a licensed machine, but not free to redistribute or embed outside that licence.",
+  "files": [
+   "Rockwell Extra Bold Regular.ttf"
+  ]
+ },
+ {
+  "family": "Sansation",
+  "licence": "open",
+  "note": "Bernd Montag. Freeware, commercial use allowed (Font Squirrel).",
+  "files": [
+   "Sansation_Bold_Italic.ttf",
+   "Sansation_Bold.ttf",
+   "Sansation_Italic.ttf",
+   "Sansation_Light_Italic.ttf",
+   "Sansation_Light.ttf",
+   "Sansation_Regular.ttf"
+  ]
+ },
+ {
+  "family": "Sky",
+  "licence": "closed",
+  "note": "Sky corporate typeface. Not licensed for outside use.",
+  "files": [
+   "Sky_Bold.ttf",
+   "Sky_Med.ttf",
+   "Sky_Reg.ttf"
+  ]
+ },
+ {
+  "family": "Spinnaker",
+  "licence": "open",
+  "note": "SIL Open Font License (Google Fonts). Free for commercial use.",
+  "files": [
+   "Spinnaker-Regular.ttf"
+  ]
+ },
+ {
+  "family": "The",
+  "licence": "closed",
+  "note": "Couldn't verify a commercial licence. Treat as personal use only until you check where it came from.",
+  "files": [
+   "The-Godfather.ttf"
+  ]
+ },
+ {
+  "family": "Titillium Web",
+  "licence": "open",
+  "note": "SIL Open Font License (Google Fonts). Free for commercial use.",
+  "files": [
+   "TitilliumWeb-Black.ttf",
+   "TitilliumWeb-Bold.ttf"
+  ]
+ },
+ {
+  "family": "VCR OSD Mono",
+  "licence": "open",
+  "note": "Riciery Leal. Listed as 100% free on DaFont (includes commercial use).",
+  "files": [
+   "VCR_OSD_MONO_1.001.ttf"
+  ]
+ },
+ {
+  "family": "Myanmar",
+  "licence": "closed",
+  "note": "Apple system font. Licensed for use on a Mac, not free to redistribute.",
+  "files": [
+   "Myanmar MN.ttc"
+  ]
+ },
+ {
+  "family": "Seravek",
+  "licence": "closed",
+  "note": "Apple system font. Licensed for use on a Mac, not free to redistribute.",
+  "files": [
+   "Seravek.ttc"
+  ]
+ }
+]

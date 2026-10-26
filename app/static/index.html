@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Specimen</title>
+<link rel="icon" href="/static/icon.svg" type="image/svg+xml">
+<script>try{var t=JSON.parse(localStorage.getItem("specimen.prefs")||"{}").theme;if(t==="light"||t==="dark")document.documentElement.dataset.theme=t}catch(e){}</script>
+<link rel="stylesheet" href="/static/app.css?v=4">
+</head>
+<body>
+<div class="window">
+  <aside class="sidebar" id="sidebar">
+    <div class="sb-top"><button class="sb-toggle icon-btn" id="sbClose" title="Hide sidebar" aria-label="Hide sidebar"></button></div>
+    <nav class="sb-scroll" id="sbNav"></nav>
+    <div class="sb-foot" id="sbFoot"></div>
+  </aside>
+
+  <main class="main">
+    <header class="toolbar" id="toolbar">
+      <button class="icon-btn sb-open" id="sbOpen" title="Show sidebar" aria-label="Show sidebar"></button>
+      <button class="icon-btn back" id="backBtn" title="Back" aria-label="Back" hidden></button>
+      <div class="tb-title"><h1 id="title">All Fonts</h1><span id="subtitle"></span></div>
+      <div class="tb-center" id="tbCenter"></div>
+      <div class="tb-right" id="tbRight"></div>
+    </header>
+    <div class="content-wrap">
+      <section class="content" id="content" tabindex="0"></section>
+      <aside class="inspector" id="inspector" hidden></aside>
+    </div>
+  </main>
+</div>
+
+<div class="drop-overlay" id="dropOverlay"><div><div class="drop-icon"></div>Drop fonts or .zip files to add them</div></div>
+<div class="menu" id="menu" hidden></div>
+<div class="sheet-back" id="sheetBack" hidden><div class="sheet" id="sheet"></div></div>
+<div class="toasts" id="toasts"></div>
+<input type="file" id="filePick" multiple accept=".otf,.ttf,.ttc,.otc,.woff,.woff2,.pfb,.pfa,.dfont,.zip" hidden>
+<input type="file" id="importPick" accept=".json,application/json" hidden>
+<script src="/static/app.js?v=4"></script>
+</body>
+</html>
